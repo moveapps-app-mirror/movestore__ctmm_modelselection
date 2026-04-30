@@ -24,10 +24,27 @@ An object of type `ctmm model with data`. This is a list with two elements: 1) a
 
 ### Artefacts
 
-`model_summary.txt`: a brief summary of the fitted models for all animals. This summary contains for each animal (row) the following information: `id` the name of the animal, `IC` the information criteria differences differences for comparison across autocovariance structures, `RMSPE` the difference in root mean squared prediction error, `DOF` approximate degrees of freedom, `model` the selected model. 
-            
+`model_summary.csv`: a brief summary of the fitted models for all animals. This summary contains for each animal (row) the following columns:
+  - `id`: the name of the animal.
+  - `IC`: the information criteria differences for comparison across autocovariance structures.
+  - `RMSPE`: the difference in root mean squared prediction error.
+  - `DOF`: degrees of freedom for estimating the area. It represents the effective sample size for calculating the area, and also the number of times the animal crossed its range during the observation time (see `ctmm_select_summary.csv`).
+  - `DOF_diffusion`: degrees of freedom for estimating the diffusion (see `ctmm_select_summary.csv`).
+  - `DOF_speed`: degrees of freedom for estimating the speed (see `ctmm_select_summary.csv`).
+  - `model`: the selected model.
 
-`ctmm_select_summary.txt`: the full summary of the fitted models for each animal. This summary contains the following columns: `id` the name of the animal, `unit` the parameter name and its unit, the lower (`low`) and upper (`high`) 95% confidence interval of the estimated parameters (`est`). 
+
+`ctmm_select_summary.csv`: the full summary of the fitted models for each animal. This summary contains the following columns: 
+  - `id` the name of the animal.
+  - `unit` the parameter name and its unit (see below).
+  - The lower (`low`) and upper (`high`) 95% confidence interval of the estimated parameter (`est`). 
+
+The rows reported in `unit` are:
+  - `area (units)`: the estimated home-range area.
+  - `τ[position] (units)`: the time it takes the animal to cross its home range, and also the time lag at which locations become time-independent (i.e. when they stop being autocorrelated in time).
+  - `τ[velocity] (units)`: the time lag at which locations become velocity-independent (i.e. when they stop being autocorrelated in velocity). Useful for e.g. step-selection models.
+  - `speed (units/units)`: estimated speed throughout the observation period.
+  - `diffusion (square kilometers/day)`: estimated value of how much the animal moved during the observed period.
 
 `models.rds`: The fitted `ctmm` models for each animal. This can be loaded by R and used locally for further analyses
 
