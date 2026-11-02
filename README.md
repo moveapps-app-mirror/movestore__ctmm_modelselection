@@ -36,9 +36,10 @@ A `telemetry.list` object as defined from the ctmm package.
 
 ### Output data
 
-An object of type `ctmm model with data`. This is a list with two elements: 1)
-an object of type `telemetry.list` and 2) a list of the selected model for each
-animal.
+An object of type `ctmm model with data`. This is a list with two elements:
+
+1. A list containing the selected `ctmm` model for each animal.
+2. The input data passed to the app (an object of type `telemetry.list`).
 
 ### Artefacts
 
@@ -96,9 +97,8 @@ The rows reported in `unit` are:
   - `diffusion (square kilometers/day)`: estimated value of how much the animal
     moved during the observed period.
 
-`models.rds`: the selected `ctmm` model of each animal (the other candidate
-models are not included). This can be loaded by R and used locally for further
-analyses.
+`models.rds`: the selected `ctmm` model of each animal, as returned by
+`ctmm.select()`. This can be loaded by R and used locally for further analyses.
 
 ### Settings 
 none
