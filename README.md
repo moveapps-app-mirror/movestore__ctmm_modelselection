@@ -86,15 +86,15 @@ for each animal. This table contains the following columns:
     estimated parameter (`est`).
 
 The rows reported in `unit` are:
-  - `area (units)`: the estimated home-range area.
-  - `τ[position] (units)`: the time it takes the animal to cross its home range,
+  - `area`: the estimated home-range area.
+  - `τ[position]`: the time it takes the animal to cross its home range,
     and also the time lag at which locations become time-independent (i.e. when
     they stop being autocorrelated in time).
-  - `τ[velocity] (units)`: the time lag at which locations become
+  - `τ[velocity]`: the time lag at which locations become
     velocity-independent (i.e. when they stop being autocorrelated in velocity).
     Useful for e.g. step-selection models.
-  - `speed (units/units)`: estimated speed throughout the observation period.
-  - `diffusion (square kilometers/day)`: estimated value of how much the animal
+  - `speed`: estimated speed throughout the observation period.
+  - `diffusion`: estimated value of how much the animal
     moved during the observed period.
 
 `models.rds`: the selected `ctmm` model of each animal, as returned by
