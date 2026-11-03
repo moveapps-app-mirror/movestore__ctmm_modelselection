@@ -2,32 +2,59 @@ library(ctmm)
 library(purrr)
 library(dplyr)
 
-rFunction = function(data) {
-  
+rFunction <- function(data) {
   g <- lapply(data, \(x) ctmm.guess(x, interactive = FALSE))
-  f1 <- map2(data, g, ~ ctmm.select(.x, .y))
-  saveRDS(f1, file = appArtifactPath("model.rds"))
-  
-  
-  xx <- map(f1, ~ summary(.x))
-  
-  # Overall summary
-  all.inds <- summary(f1)
-  x1 <- as.data.frame(all.inds)
-  x2 <- as.data.frame(sapply(xx, function(x) x$name))
-  x1$name <- rownames(x1)
-  x2$name <- rownames(x2)
-  out1 <- merge(x1, x2, by = "name")
-  names(out1) <- c("id", "IC", "RMSPE", "DOF", "model")
-  write.csv(out1, file = appArtifactPath("model_summary.txt"))
-  
-  # Individual summary
-  xx <- map(xx, ~ .x$CI)
+
+  # Return all fitted models for each animal (`verbose = TRUE`) so we can
+  # provide a comparison output
+  candidates <- map2(data, g, ~ ctmm.select(.x, .y, verbose = TRUE))
+
+  # Selected model for each animal
+  models <- map(candidates, 1)
+  saveRDS(models, file = appArtifactPath("models.rds"))
+
+  # Compare fitted models within each animal. AICc and RMSPE are only
+  # comparable within an animal. units = FALSE reports RMSPE in meters for
+  # every animal.
+  comparison <- imap_dfr(
+    candidates,
+    function(cands, id) {
+      tab <- summary(cands, units = FALSE)
+      data.frame(
+        id = id,
+        model = rownames(tab),
+        dAICc = tab[, 1],
+        dRMSPE_m = tab[, 2],
+        DOF = tab[, 3]
+      )
+    }
+  )
+
+  write.csv(comparison, file = appArtifactPath("model_comparison.csv"), row.names = FALSE)
+
+  # Summary of the DOF for the selected model for each animal
+  m_summary <- map(models, ~ summary(.x))
+
+  out1 <- data.frame(
+    id = names(models),
+    DOF = sapply(m_summary, function(x) x$DOF["area"]),
+    DOF_diffusion = sapply(m_summary, function(x) x$DOF["diffusion"]),
+    DOF_speed = sapply(m_summary, function(x) x$DOF["speed"]),
+    model = sapply(m_summary, function(x) x$name)
+  )
+
+  write.csv(out1, file = appArtifactPath("selected_model_summary.csv"), row.names = FALSE)
+
+  # Parameter estimates and confidence intervals for each selected model
+  xx <- map(m_summary, ~ .x$CI)
   lens <- map_int(xx, nrow)
   xx <- do.call(rbind, xx)
-  xx |> as_tibble() |> 
-    mutate(id = rep(names(f1), lens), unit = rownames(xx)) |> 
-    select(id, unit, low, est, high) |> 
-    write.csv(appArtifactPath("ctmm_select_summary.txt"))
-  return(list(f1, data))
+
+  xx |>
+    as_tibble() |>
+    mutate(id = rep(names(models), lens), unit = rownames(xx)) |>
+    select(id, unit, low, est, high) |>
+    write.csv(appArtifactPath("selected_model_estimates.csv"), row.names = FALSE)
+
+  return(list(models, data))
 }
