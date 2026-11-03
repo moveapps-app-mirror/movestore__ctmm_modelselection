@@ -11,11 +11,11 @@ best model for each animal, using the function `ctmm.select()` from the
 
 ## Documentation
 Based on the package `ctmm`, this App fits continuous-time movement models to
-tracking data. These models model the movement process of an animal while
-accounting for the autocorrelation structure of the
-data. For each animal, an initial model is guessed from the track properties.
-From this initial guess, several models are then fit to the data, and the one
-with the lowest AICc is selected as the best fit.
+tracking data. These models describe the movement process of an animal,
+accounting for the autocorrelation structure of the data. For each animal, an
+initial model is guessed from the track properties. From this initial guess,
+several models are then fit to the data, and the one with the lowest AICc is
+selected as the best fit.
 
 The selected models are provided in the output so they can be used in
 subsequent Apps. The App produces several artefacts that contain summaries
@@ -140,3 +140,4 @@ the Github repository if you repeatedly encounter errors.
   Fleming, C. H., & Gurarie, E. (2016). ctmm: an R package for analyzing animal
   relocation data as a continuous-time stochastic process.
   *Methods in Ecology and Evolution*, 7(9), 1124–1132.
+  https://doi.org/10.1111/2041-210X.12559
