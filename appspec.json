@@ -1,4 +1,5 @@
 {
+  "version": "1.2",
   "dependencies": {
     "R": [
       {
@@ -12,17 +13,15 @@
       }
     ]
   },
-  "createsArtifacts": true,
   "license": {
     "key": "MIT"
   },
   "language": "eng",
   "keywords": [
     "ctmm",
-    "model selection", 
+    "model selection",
     "ctmm.select()"
   ],
-  
   "people": [
     {
       "firstName": "Marco",
@@ -36,7 +35,7 @@
       "orcid": "0000-0002-3042-5435",
       "affiliation": "Kaldera",
       "affiliationRor": null
-    }, 
+    },
     {
       "firstName": "Johannes",
       "middleInitials": null,
@@ -46,7 +45,7 @@
         "author",
         "creator"
       ],
-      "orcid": "0000-0002-1771-7775" ,
+      "orcid": "0000-0002-1771-7775",
       "affiliation": "University of Goettingen",
       "affiliationRor": "01y9bpm73"
     },
@@ -75,9 +74,5 @@
       "note": "Documentation of the `ctmm.select()`-Function",
       "url": "https://ctmm-initiative.github.io/ctmm/reference/ctmm.fit.html"
     }
-  ],
-  "documentation": {
-    "url": "https://github.com/movestore/ctmm_modelselection/blob/main/README.md"
-  }
+  ]
 }
-
